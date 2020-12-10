@@ -20,8 +20,8 @@ class MainScreen extends StatelessWidget {
     return BlocListener<InternetCubit, InternetState>(
       listener: (_, state) {
         internetSnackBar(
-          scaffoldKey: scaffoldKey,
           state: state,
+          context: context,
         );
       },
       child: Scaffold(

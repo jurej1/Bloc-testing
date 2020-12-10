@@ -71,11 +71,14 @@ class AuthAPI {
 
       if (e.contains('invalid-email')) {
         msg = 'Invalid email';
-      } else if (e.contains('user-disabled')) {
+      }
+      if (e.contains('user-disabled')) {
         msg = 'Sorry but you have been disabled.';
-      } else if (e.contains('user-not-found')) {
+      }
+      if (e.contains('user-not-found')) {
         msg = 'Sorrry but this user has not been found.';
-      } else if (e.contains('wrong-password')) {
+      }
+      if (e.contains('wrong-password')) {
         msg = 'Invalid password';
       }
 

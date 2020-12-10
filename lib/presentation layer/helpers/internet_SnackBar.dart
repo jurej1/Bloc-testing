@@ -3,16 +3,16 @@ import 'package:testing_application/business%20logic/internet%20cubit/internet_c
 
 void internetSnackBar({
   InternetState state,
-  GlobalKey<ScaffoldState> scaffoldKey,
+  BuildContext context,
 }) {
   if (state is Disconnected) {
-    scaffoldKey.currentState.showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text('Check if the device is connected to the WIFI'),
       ),
     );
   } else if (state is InternetConnected) {
-    scaffoldKey.currentState.showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text('It seems like you are connected'),
       ),

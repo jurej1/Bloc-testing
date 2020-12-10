@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user.dart' as app;
-import '../exception/exception.dart';
 
 import '../data providers/authAPI.dart';
 

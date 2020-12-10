@@ -39,7 +39,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
       emit(UserLogedIn(userData));
     } catch (error) {
-      emit(ErrorWhileAuthentication(error.toString()));
+      print('Authentication cubit error:');
+      print(error);
+
+      emit(ErrorWhileAuthentication(error));
     }
   }
 
