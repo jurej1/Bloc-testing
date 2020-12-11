@@ -49,4 +49,34 @@ class AuthReposetory {
   Future<void> logoutUser() async {
     await authApi.signOut();
   }
+
+  Future<app.User> createUserWithEmailAndPassword({
+    Map<String, String> userData,
+  }) async {
+    try {
+      UserCredential userCredential =
+          await authApi.createUserWithEmailAndPassword(
+        email: userData['email'],
+        password: userData['password'],
+      );
+
+      await authApi.createUserDataInFirebase(
+        email: userData['email'],
+        nickname: userData['nickname'],
+        phoneNumber: userData['phoneNumber'],
+        uid: userCredential.user.uid,
+        photoUrl: userData['photoUrl'] ??
+            'https://djraphaelschlosser.de/wp-content/uploads/2017/09/profile.jpg',
+      );
+
+      DocumentSnapshot userFirebase = await authApi.getUserDataFromFirebase(
+          userId: userCredential.user.uid);
+
+      app.User user = app.User.fromDocSnapshot(userFirebase);
+
+      return user;
+    } catch (e) {
+      throw e;
+    }
+  }
 }

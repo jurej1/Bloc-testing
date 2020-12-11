@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testing_application/business%20logic/internet%20cubit/internet_cubit.dart';
 import 'package:testing_application/business%20logic/user%20chat/userchat_cubit.dart';
-import '../helpers/internet_SnackBar.dart' as sc;
 
 import '../../data/models/user.dart' as app;
 
@@ -33,7 +32,13 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(),
       body: BlocListener<InternetCubit, InternetState>(
         listener: (_, state) {
-          sc.internetSnackBar(state: state);
+          if (state is Disconnected) {
+            Scaffold.of(_).showSnackBar(SnackBar(
+              content: Text(
+                'it seems like you are disconnected',
+              ),
+            ));
+          }
         },
         child: BlocBuilder<UserChatCubit, UserChatState>(
           builder: (_, state) {

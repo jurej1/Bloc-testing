@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart' as fbauth;
-import 'package:google_sign_in/google_sign_in.dart' as google;
-import 'package:cloud_firestore/cloud_firestore.dart' as fbcloud;
 import 'dart:async';
 
-import 'package:testing_application/data/exception/exception.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as fbcloud;
+import 'package:firebase_auth/firebase_auth.dart' as fbauth;
+import 'package:google_sign_in/google_sign_in.dart' as google;
+import 'package:meta/meta.dart';
 
 class AuthAPI {
   final dbAuth = fbauth.FirebaseAuth.instance;
@@ -33,10 +33,33 @@ class AuthAPI {
         msg = 'Weak password';
       }
 
-      throw Ex(msg);
+      throw msg;
     } catch (error) {
       String msg = 'Oops something went wrong';
-      throw Ex(msg);
+      throw msg;
+    }
+  }
+
+  Future<void> createUserDataInFirebase({
+  @required  String uid,
+  @required  String email,
+  @required  String nickname,
+  @required  String phoneNumber,
+    @required String photoUrl,
+  }) async {
+    try {
+      await dbCloud.collection('users').doc(uid).set({
+        'contacts': [],
+        'email': email,
+        'id': uid,
+        'joinedOn': fbcloud.Timestamp.now(),
+        'nickname': nickname,
+        'phoneNumber': phoneNumber,
+        'photoUrl': '',
+        'userBio': 'Hey I am using Arrow',
+      });
+    } catch (e) {
+      throw e;
     }
   }
 
@@ -49,7 +72,8 @@ class AuthAPI {
 
       return userData;
     } catch (e) {
-      throw Ex('Oops something went wrong');
+      String msg = 'Oops something went wrong';
+      throw msg;
     }
   }
 

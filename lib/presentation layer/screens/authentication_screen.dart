@@ -2,39 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:testing_application/business%20logic/authentication/authentication_cubit.dart';
-import 'package:testing_application/business%20logic/internet%20cubit/internet_cubit.dart';
-import 'package:testing_application/presentation%20layer/helpers/auth_snackBar.dart';
-import 'package:testing_application/presentation%20layer/widgets/authentication%20screen/authLoading.dart';
-import 'package:testing_application/presentation%20layer/widgets/authentication%20screen/authLogin.dart';
-import '../helpers/internet_SnackBar.dart';
+import 'package:testing_application/presentation%20layer/screens/authentication%20screen/registerScreen.dart';
+
+import 'authentication screen/authLoading.dart';
+import 'authentication screen/authLogin.dart';
 
 // ignore: must_be_immutable
-class AuthenticationScreen extends StatelessWidget {
+class AuthenticationScreen extends StatefulWidget {
+  @override
+  _AuthenticationScreenState createState() => _AuthenticationScreenState();
+}
+
+class _AuthenticationScreenState extends State<AuthenticationScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<InternetCubit, InternetState>(
-      listener: (_, state) {
-        internetSnackBar(
-          state: state,
-        );
+    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
+      builder: (_, state) {
+        if (state is LoadingState) {
+          return LoadingScreen();
+        } else {
+          return AuthLogin();
+        }
       },
-      child: BlocConsumer<AuthenticationCubit, AuthenticationState>(
-        listener: (_, state) {
-          if (state is ErrorWhileAuthentication) {
-            authSnackBar(
-              msg: state.errorMsg,
-              context: context,
-            );
-          }
-        },
-        builder: (_, state) {
-          if (state is UserLogedOut) {
-            return AuthLogin();
-          } else {
-            return LoadingScreen();
-          }
-        },
-      ),
     );
   }
 }

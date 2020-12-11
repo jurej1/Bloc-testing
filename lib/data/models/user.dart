@@ -22,15 +22,6 @@ class User {
     @required this.contacts,
   });
 
-  // List<Map<String, String>> _userContacts(List<dynamic> contacts) {
-  //   contacts.map((data) {
-  //     return {
-  //       'chatId': data['chatId'],
-  //       'id': data['id'],
-  //     };
-  //   });
-  // }
-
   factory User.fromJson(Map<String, dynamic> userData) {
     return User(
       email: userData['email'],

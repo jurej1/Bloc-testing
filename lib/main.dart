@@ -10,6 +10,8 @@ import 'package:testing_application/data/reposetory/authReposetory.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:testing_application/data/reposetory/databaseReposetory.dart';
 import 'package:testing_application/presentation%20layer/animations/routeAnimations.dart';
+import 'package:testing_application/presentation%20layer/screens/authentication%20screen/authLogin.dart';
+import 'package:testing_application/presentation%20layer/screens/authentication%20screen/registerScreen.dart';
 import 'package:testing_application/presentation%20layer/screens/chat_screen.dart';
 import 'package:testing_application/presentation%20layer/screens/settings_screen.dart';
 import 'package:testing_application/presentation%20layer/widgets/monitoringAuth.dart';
@@ -77,7 +79,10 @@ class MyApp extends StatelessWidget {
           create: (context) => InternetCubit(connectivity),
         ),
         BlocProvider<AuthenticationCubit>(
-          create: (context) => AuthenticationCubit(authReposetory),
+          create: (context) => AuthenticationCubit(
+            authReposetory: authReposetory,
+            databaseReposetory: databaseReposetory,
+          ),
         ),
         BlocProvider<UsersListCubit>(
           create: (context) => UsersListCubit(databaseReposetory),
@@ -90,6 +95,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
+          buttonTheme: ButtonThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
           snackBarTheme: SnackBarThemeData(
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -107,6 +117,8 @@ class MyApp extends StatelessWidget {
         routes: {
           SettingsScreen.routeName: (ctx) => SettingsScreen(),
           ChatScreen.routeName: (ctx) => ChatScreen(),
+          AuthRegister.routeName: (ctx) => AuthRegister(),
+          AuthLogin.routeName: (ctx) => AuthLogin(),
         },
       ),
     );
