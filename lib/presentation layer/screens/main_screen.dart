@@ -5,7 +5,6 @@ import 'package:testing_application/business%20logic/internet%20cubit/internet_c
 import 'package:testing_application/business%20logic/usersList/usersList_cubit.dart';
 import 'package:testing_application/presentation%20layer/screens/chat_screen.dart';
 import 'package:testing_application/presentation%20layer/widgets/appDrawer.dart';
-import '../helpers/internet_SnackBar.dart';
 import '../../data/models/user.dart' as app;
 import 'package:intl/intl.dart';
 
@@ -18,11 +17,12 @@ class MainScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return BlocListener<InternetCubit, InternetState>(
-      listener: (_, state) {
-        internetSnackBar(
-          state: state,
-          context: context,
-        );
+      listener: (context, state) {
+        if (state is Disconnected) {
+          scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text('It seems like you are disconnected'),
+          ));
+        }
       },
       child: Scaffold(
         drawer: CustomAppDrawer(),

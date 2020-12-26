@@ -1,25 +1,30 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:testing_application/data/exception/exception.dart';
+
+import 'package:image_picker/image_picker.dart' as img;
+import 'dart:io';
 
 //Reposetory
 import 'package:testing_application/data/reposetory/authReposetory.dart';
 
 //Models
 import 'package:testing_application/data/models/user.dart' as app;
+import 'package:testing_application/data/reposetory/databaseReposetory.dart';
 
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthReposetory authReposetory;
+  final DatabaseReposetory databaseReposetory;
 
-  AuthenticationCubit(this.authReposetory) : super(UserLogedOut()) {
+  AuthenticationCubit({
+    this.authReposetory,
+    this.databaseReposetory,
+  }) : super(LoadingState()) {
     checkIfTheUserIsLoggedIn();
   }
 
   Future<void> checkIfTheUserIsLoggedIn() async {
-    emit(LoadingState());
-
     app.User user = await authReposetory.checkUser();
 
     if (user == null) {
@@ -51,5 +56,15 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     await authReposetory.logoutUser();
 
     emit(UserLogedOut());
+  }
+
+  Future<File> takeImage() async {
+    img.PickedFile pickedFile = await img.ImagePicker.platform.pickImage(
+      source: img.ImageSource.camera,
+    );
+
+    File image = File(pickedFile.path);
+
+    return image;
   }
 }

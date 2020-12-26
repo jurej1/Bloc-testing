@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:testing_application/data/data%20providers/databaseAPI.dart';
+import 'dart:io';
+
 import '../models/user.dart' as app;
 
 class DatabaseReposetory {
@@ -18,5 +20,14 @@ class DatabaseReposetory {
     return _databaseAPI.usersSnapshot.map(_transformUserFromQuerySnapshot);
   }
 
-  Stream<QuerySnapshot> userChats(String chatId) {}
+  // Stream<QuerySnapshot> userChats(String chatId) {}
+
+  Future<String> uploadImage(File file, String uid) async {
+    String downloadUrl = await _databaseAPI.uploadImage(
+      file,
+      uid,
+    );
+
+    return downloadUrl;
+  }
 }
