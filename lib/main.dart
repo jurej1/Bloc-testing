@@ -18,49 +18,10 @@ import 'package:testing_application/presentation%20layer/widgets/monitoringAuth.
 
 import 'business logic/user chat/userchat_cubit.dart';
 
-void main() {
-  runApp(App());
-}
-
-// ignore: must_be_immutable
-class App extends StatefulWidget {
-  @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  bool isInit = false;
-  bool isError = false;
-
-  @override
-  void initState() {
-    initializeApp();
-    super.initState();
-  }
-
-  void initializeApp() async {
-    try {
-      await Firebase.initializeApp();
-      setState(() {
-        isInit = true;
-      });
-    } catch (e) {
-      setState(() {
-        isError = true;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (isInit) {
-      return MyApp();
-    } else if (isError) {
-      return ErrorOccured();
-    } else {
-      return Loading();
-    }
-  }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -93,7 +54,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Testing',
         theme: ThemeData(
           buttonTheme: ButtonThemeData(
             shape: RoundedRectangleBorder(
@@ -121,24 +82,6 @@ class MyApp extends StatelessWidget {
           AuthLogin.routeName: (ctx) => AuthLogin(),
         },
       ),
-    );
-  }
-}
-
-class ErrorOccured extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(),
-    );
-  }
-}
-
-class Loading extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(),
     );
   }
 }
